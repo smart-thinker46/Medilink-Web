@@ -1,6 +1,6 @@
 import sql from "@/app/api/utils/sql";
-import argon2 from "argon2";
 import jwt from "jsonwebtoken";
+import { verifyPassword } from "@/utils/password";
 
 export async function POST(request) {
   try {
@@ -31,7 +31,7 @@ export async function POST(request) {
     const user = users[0];
 
     // Verify password
-    const isValidPassword = await argon2.verify(user.password_hash, password);
+    const isValidPassword = await verifyPassword(user.password_hash, password);
     if (!isValidPassword) {
       return Response.json(
         { message: "Invalid email or password" },

@@ -1,6 +1,6 @@
 import sql from "@/app/api/utils/sql";
-import argon2 from "argon2";
 import jwt from "jsonwebtoken";
+import { hashPassword } from "@/utils/password";
 
 export async function POST(request) {
   try {
@@ -55,7 +55,7 @@ export async function POST(request) {
     }
 
     // Hash password
-    const passwordHash = await argon2.hash(password);
+    const passwordHash = await hashPassword(password);
 
     // Start transaction to create user and role-specific profile
     const result = await sql.transaction(async (txn) => {

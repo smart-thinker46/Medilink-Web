@@ -4,9 +4,8 @@ import { skipCSRFCheck } from '@auth/core';
 import Credentials from '@auth/core/providers/credentials';
 import { authHandler, initAuthConfig } from '@hono/auth-js';
 import { Pool, neonConfig } from '@neondatabase/serverless';
-import { hash, verify } from 'argon2';
 import { Hono } from 'hono';
-import { contextStorage, getContext } from 'hono/context-storage';
+import { contextStorage } from 'hono/context-storage';
 import { cors } from 'hono/cors';
 import { proxy } from 'hono/proxy';
 import { requestId } from 'hono/request-id';
@@ -17,6 +16,7 @@ import NeonAdapter from './adapter';
 import { getHTMLForErrorPage } from './get-html-for-error-page';
 import { isAuthAction } from './is-auth-action';
 import { API_BASENAME, api } from './route-builder';
+import { hashPassword, verifyPassword } from '../src/utils/password';
 neonConfig.webSocketConstructor = ws;
 
 const als = new AsyncLocalStorage<{ requestId: string }>();
@@ -149,7 +149,7 @@ if (process.env.AUTH_SECRET) {
               return null;
             }
 
-            const isValid = await verify(accountPassword, password);
+            const isValid = await verifyPassword(accountPassword, password);
             if (!isValid) {
               return null;
             }
@@ -190,7 +190,7 @@ if (process.env.AUTH_SECRET) {
               });
               await adapter.linkAccount({
                 extraData: {
-                  password: await hash(password),
+                  password: await hashPassword(password),
                 },
                 type: 'credentials',
                 userId: newUser.id,
