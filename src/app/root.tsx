@@ -374,7 +374,8 @@ export function Layout({ children }: { children: ReactNode }) {
         <Meta />
         <Links />
         <script type="module" src="/src/__create/dev-error-overlay.js"></script>
-        <link rel="icon" href="/src/__create/favicon.png" />
+        <link rel="icon" type="image/png" href="/icon.png" />
+        <link rel="apple-touch-icon" href="/icon.png" />
         <LoadFonts />
       </head>
       <body>
