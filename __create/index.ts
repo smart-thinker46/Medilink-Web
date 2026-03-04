@@ -34,10 +34,9 @@ for (const method of ['log', 'info', 'warn', 'error', 'debug'] as const) {
   };
 }
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
-const adapter = NeonAdapter(pool);
+const databaseUrl = process.env.DATABASE_URL;
+const pool = databaseUrl ? new Pool({ connectionString: databaseUrl }) : null;
+const adapter = pool ? NeonAdapter(pool) : null;
 
 const app = new Hono();
 
@@ -72,11 +71,11 @@ if (process.env.CORS_ORIGINS) {
   );
 }
 
-if (process.env.AUTH_SECRET) {
+if (process.env.AUTH_SECRET && adapter) {
   app.use(
     '*',
     initAuthConfig((c) => ({
-      secret: c.env.AUTH_SECRET,
+      secret: c.env.AUTH_SECRET ?? process.env.AUTH_SECRET,
       pages: {
         signIn: '/account/signin',
         signOut: '/account/logout',
@@ -205,6 +204,8 @@ if (process.env.AUTH_SECRET) {
       ],
     }))
   );
+} else if (process.env.AUTH_SECRET && !adapter) {
+  console.warn('AUTH_SECRET is set but DATABASE_URL is missing. Auth routes are disabled.');
 }
 app.all('/integrations/:path{.+}', async (c, next) => {
   const queryParams = c.req.query();
