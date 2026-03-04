@@ -1,5 +1,3 @@
-'use client';
-
 import { useIdleTimer } from 'react-idle-timer';
 
 export function useDevServerHeartbeat() {
