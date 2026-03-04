@@ -25,6 +25,7 @@
 		"@tanstack/react-table": "^8.21.2",
 		"@types/babel__core": "^7.20.5",
 		"@vis.gl/react-google-maps": "^0.8.3",
+		"@vercel/react-router": "latest",
 		"classnames": "^2.5.1",
 		"clean-stack": "^5.2.0",
 		"cmdk": "^1.1.1",
