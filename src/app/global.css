@@ -1,9 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Nunito:wght@600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --ml-font-body: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --ml-font-heading: 'Nunito', 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --ml-background: #ffffff;
+  --ml-surface: #f9f7f7;
+  --ml-surfaceSecondary: #fdeff0;
+  --ml-card: #ffffff;
+  --ml-text: #111111;
+  --ml-textSecondary: #2a2a2a;
+  --ml-textTertiary: #4a4a4a;
+  --ml-primary: #1b8f3a;
+  --ml-primaryLight: #e6f4ea;
+  --ml-primaryDark: #0f6e2a;
+  --ml-accent: #c62828;
+  --ml-accentLight: #fdebec;
+  --ml-accentDark: #8e1d1d;
+  --ml-success: #1b8f3a;
+  --ml-warning: #d4a017;
+  --ml-error: #c62828;
+  --ml-info: #8e1d1d;
+  --ml-border: #d8c8c8;
+  --ml-borderLight: #e8dada;
+  --ml-borderInput: #cebebe;
+  --ml-surfaceBorder: #e1d2d2;
+  --ml-inputBackground: #ffffff;
+  --ml-bottomArea: #ffffff;
+  --ml-bottomBorder: #e1d2d2;
+  --ml-buttonPrimaryBg: #1b8f3a;
+  --ml-buttonPrimaryBgHover: #157430;
+  --ml-buttonPrimaryBgActive: #0f5f27;
+  --ml-buttonPrimaryText: #ffffff;
+  --ml-buttonSecondaryBg: #ffffff;
+  --ml-buttonSecondaryBgHover: #f3f8f4;
+  --ml-buttonSecondaryBgActive: #e6f0e8;
+  --ml-buttonSecondaryText: #0f6e2a;
+  --ml-buttonSecondaryBorder: #1b8f3a;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --ml-buttonPrimaryBg: #00b4d8;
+  --ml-buttonPrimaryBgHover: #06a2c2;
+  --ml-buttonPrimaryBgActive: #0b8aa5;
+  --ml-buttonPrimaryText: #02202a;
+  --ml-buttonSecondaryBg: #0f1a20;
+  --ml-buttonSecondaryBgHover: #13232c;
+  --ml-buttonSecondaryBgActive: #17303b;
+  --ml-buttonSecondaryText: #b5ecff;
+  --ml-buttonSecondaryBorder: #00b4d8;
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background: var(--ml-background);
+  color: var(--ml-text);
+}
+
+body {
+  margin: 0;
+  font-family: var(--ml-font-body);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6, .ml-heading {
+  font-family: var(--ml-font-heading);
+  letter-spacing: -0.01em;
+}
+
 @layer base {
   input, textarea, select, button {
     @apply outline-none focus:outline-none;
+    font-family: var(--ml-font-body);
   }
+}
+
+.ml-card {
+  background: var(--ml-card);
+  border: 1px solid var(--ml-border);
+  border-radius: 12px;
+}
+
+.ml-button-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  background: var(--ml-buttonPrimaryBg);
+  color: var(--ml-buttonPrimaryText);
+  transition: background 160ms ease, transform 120ms ease, opacity 160ms ease;
+  font-weight: 700;
+}
+
+.ml-button-primary:hover {
+  background: var(--ml-buttonPrimaryBgHover);
+}
+
+.ml-button-primary:active {
+  background: var(--ml-buttonPrimaryBgActive);
+  transform: translateY(1px);
+}
+
+.ml-button-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ml-button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid var(--ml-buttonSecondaryBorder);
+  background: var(--ml-buttonSecondaryBg);
+  color: var(--ml-buttonSecondaryText);
+  transition: background 160ms ease, transform 120ms ease, opacity 160ms ease;
+  font-weight: 700;
+}
+
+.ml-button-secondary:hover {
+  background: var(--ml-buttonSecondaryBgHover);
+}
+
+.ml-button-secondary:active {
+  background: var(--ml-buttonSecondaryBgActive);
+  transform: translateY(1px);
+}
+
+.ml-button-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ml-button-primary:focus-visible,
+.ml-button-secondary:focus-visible {
+  outline: 2px solid var(--ml-primary);
+  outline-offset: 2px;
+}
+
+.ml-kenya-flag-bg {
+  background:
+    linear-gradient(
+      to bottom,
+      #111111 0 31%,
+      #ffffff 31% 34%,
+      #c62828 34% 66%,
+      #ffffff 66% 69%,
+      #1b8f3a 69% 100%
+    );
+}
+
+.ml-dark-gradient-bg {
+  background: linear-gradient(160deg, #00b4d8 0%, #0077b6 55%, #003459 100%);
+}
+
+.ml-splash-logo-pulse {
+  animation: mlPulse 1.8s ease-in-out infinite;
+}
+
+.ml-splash-dot {
+  animation: mlDot 1.1s ease-in-out infinite;
+}
+
+@keyframes mlPulse {
+  0%, 100% { transform: scale(1); opacity: 0.92; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+
+@keyframes mlDot {
+  0%, 100% { transform: scale(0.8); opacity: 0.6; }
+  50% { transform: scale(1.3); opacity: 1; }
 }
