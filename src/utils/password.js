@@ -35,19 +35,6 @@ function verifyScryptHash(storedHash, password) {
   return timingSafeEqual(expectedBuffer, calculatedBuffer);
 }
 
-async function verifyArgon2Hash(storedHash, password) {
-  try {
-    const argon2Module = await import('argon2');
-    const verify = argon2Module.verify || argon2Module.default?.verify;
-    if (typeof verify !== 'function') {
-      return false;
-    }
-    return Boolean(await verify(storedHash, password));
-  } catch {
-    return false;
-  }
-}
-
 export async function verifyPassword(storedHash, password) {
   if (typeof storedHash !== 'string' || typeof password !== 'string') {
     return false;
@@ -55,10 +42,6 @@ export async function verifyPassword(storedHash, password) {
 
   if (storedHash.startsWith(`${SCRYPT_PREFIX}$`)) {
     return verifyScryptHash(storedHash, password);
-  }
-
-  if (storedHash.startsWith('$argon2')) {
-    return verifyArgon2Hash(storedHash, password);
   }
 
   return false;
